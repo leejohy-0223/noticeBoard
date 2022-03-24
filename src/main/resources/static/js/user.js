@@ -17,15 +17,14 @@ let index = {
 
         $.ajax({
             type: "POST",
-            url: "/auth/joinProc",
+            url: "/user",
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
-        }).done(function (data, statusText, jqXHR) {
-            alert(statusText); // success 고정 출력
+        }).done(function () {
             alert("회원가입이 완료되었습니다.");
             location.href = "/";
         }).fail(function () {
-            alert("회원가입에 실패하였습니다.");
+            alert("중복된 username 입니다.");
         });
 
     },

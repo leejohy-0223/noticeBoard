@@ -9,19 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = ArticleController.class)
-class ArticleControllerTest {
+@WebMvcTest(controllers = BoardController.class)
+class BoardControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @DisplayName("기본 /요청에 대해서는 index.html을 반환한다.")
+    @DisplayName("기본 /요청에 대해서는 index view를 반환한다.")
     @Test
     void get_index() throws Exception {
         mockMvc.perform(get("/"))
             .andExpect(status().isOk())
             .andExpect(view().name("index"));
-
     }
 
 }
