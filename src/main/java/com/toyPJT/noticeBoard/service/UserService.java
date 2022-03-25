@@ -9,7 +9,6 @@ import com.toyPJT.noticeBoard.domain.user.User;
 import com.toyPJT.noticeBoard.domain.user.UserRepository;
 import com.toyPJT.noticeBoard.dto.LoginRequest;
 import com.toyPJT.noticeBoard.dto.UserSaveRequest;
-import com.toyPJT.noticeBoard.exception.ExceptionType;
 import com.toyPJT.noticeBoard.exception.GlobalException;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 @Service
 public class UserService {
 
@@ -28,8 +28,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional(readOnly = true)
-    public void login(LoginRequest loginRequest) {
+    public String login(LoginRequest loginRequest) {
         User user = userRepository.findByUsername(loginRequest.getUsername())
             .orElseThrow(() -> new GlobalException(ID_DOES_NOT_EXIST));
 
@@ -37,5 +36,6 @@ public class UserService {
             throw new GlobalException(PASSWORDS_DO_NOT_MATCH);
         }
         log.debug("user info = {}, {}", user.getUsername(), user.getPassword());
+        return user.getUsername();
     }
 }

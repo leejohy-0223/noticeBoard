@@ -12,64 +12,41 @@
 
 
             <!--   로그인 유저 페이지 -->
-<!--            <div sec:authorize="isAuthenticated()">-->
-<!--                &lt;!&ndash;    관리자 페이지        &ndash;&gt;-->
-<!--                <div sec:authorize="hasRole('ADMIN')">-->
-<!--                    <ul class="navbar-nav">-->
-<!--                        <li class="nav-item"><a class="nav-link" href="/admin">어드민페이지</a></li>-->
-<!--                        <li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>-->
-<!--                        <li class="nav-item dropdown">-->
-<!--                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">-->
-<!--                                카테고리-->
-<!--                            </a>-->
-<!--                            <div class="dropdown-menu">-->
-<!--                                <a class="dropdown-item" href="/">전체 글 보기</a>-->
-<!--                                <a class="dropdown-item" href="/daily">일상</a>-->
-<!--                                <a class="dropdown-item" href="/date">데이트</a>-->
-<!--                            </div>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item"><a class="nav-link" href="/board/saveForm">글쓰기</a></li>-->
-<!--                        <li class="nav-item"><a class="nav-link" href="/user/myBoard">작성글</a></li>-->
-<!--                        <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>-->
-<!--                    </ul>-->
-<!--                </div>-->
+            <div th:if="${session.loginMember != null}">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            카테고리
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/">전체 글 보기</a>
+                            <a class="dropdown-item" href="/daily">일상</a>
+                            <a class="dropdown-item" href="/date">데이트</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/board/saveForm">글쓰기</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/myBoard">작성글</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+<!--                    <button id="btn-save" class="btn btn-primary">로그아웃</button>-->
 
-<!--                &lt;!&ndash;    일반 유저 페이지        &ndash;&gt;-->
-<!--                <div sec:authorize="hasRole('USER')">-->
-<!--                    <ul class="navbar-nav">-->
-<!--                        <li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>-->
-<!--                        <li class="nav-item dropdown">-->
-<!--                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">-->
-<!--                                카테고리-->
-<!--                            </a>-->
-<!--                            <div class="dropdown-menu">-->
-<!--                                <a class="dropdown-item" href="/">전체 글 보기</a>-->
-<!--                                <a class="dropdown-item" href="/daily">일상</a>-->
-<!--                                <a class="dropdown-item" href="/date">데이트</a>-->
-<!--                            </div>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item"><a class="nav-link" href="/board/saveForm">글쓰기</a></li>-->
-<!--                        <li class="nav-item"><a class="nav-link" href="/user/myBoard">작성글</a></li>-->
-<!--                        <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--            </div>-->
-
+                </ul>
+            </div>
 
             <!--  비 로그인 페이지  -->
-<!--            <div sec:authorize="isAnonymous()">-->
+            <div th:if="${session.loginMember == null}">
                 <div>
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="/loginForm">로그인</a></li>
                         <li class="nav-item"><a class="nav-link" href="/joinForm">회원가입</a></li>
                     </ul>
                 </div>
-<!--            </div>-->
-
-
+            </div>
         </div>
     </nav>
     <br/>
 </div>
+
+<!--<script src="/js/user.js"></script>-->
 
 </html>
