@@ -1,5 +1,7 @@
 package com.toyPJT.noticeBoard.exception;
 
+import static com.toyPJT.noticeBoard.exception.ExceptionType.*;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,6 +17,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     private ResponseEntity<String> handleException() {
-        return ExceptionType.DUPLICATE_ID.getResponse();
+        return DUPLICATE_ID.getResponse();
     }
 }

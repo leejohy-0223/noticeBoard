@@ -1,5 +1,7 @@
 package com.toyPJT.noticeBoard.service;
 
+import static com.toyPJT.noticeBoard.exception.ExceptionType.*;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,10 +31,10 @@ public class UserService {
     @Transactional(readOnly = true)
     public void login(LoginRequest loginRequest) {
         User user = userRepository.findByUsername(loginRequest.getUsername())
-            .orElseThrow(() -> new GlobalException(ExceptionType.ID_DOES_NOT_EXIST));
+            .orElseThrow(() -> new GlobalException(ID_DOES_NOT_EXIST));
 
         if (!user.isYourPassword(loginRequest.getPassword())) {
-            throw new GlobalException(ExceptionType.PASSWORDS_DO_NOT_MATCH);
+            throw new GlobalException(PASSWORDS_DO_NOT_MATCH);
         }
         log.debug("user info = {}, {}", user.getUsername(), user.getPassword());
     }

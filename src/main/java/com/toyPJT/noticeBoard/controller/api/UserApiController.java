@@ -1,6 +1,7 @@
 package com.toyPJT.noticeBoard.controller.api;
 
-import org.springframework.http.HttpStatus;
+import static org.springframework.http.HttpStatus.*;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ public class UserApiController {
     public ResponseEntity<Void> join(@RequestBody UserSaveRequest userSaveRequest) {
         log.debug("POST /user");
         userService.register(userSaveRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(CREATED);
     }
+
 }

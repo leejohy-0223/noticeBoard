@@ -17,7 +17,6 @@ let index = {
             password: $("#password").val(),
             email: $("#email").val()
         }
-
         $.ajax({
             type: "POST",
             url: "/user",
@@ -62,7 +61,7 @@ let index = {
             url: "/user",
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
-        }).done(function (res) {
+        }).done(function () {
             alert("회원수정이 완료되었습니다.");
             location.href = "/";
         }).fail(function (error) {
