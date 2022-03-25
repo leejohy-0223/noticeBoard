@@ -38,4 +38,7 @@ public class User {
     @CreationTimestamp
     private Timestamp createDate;
 
+    public boolean isYourPassword(String password) {
+        return this.password.equals(password);
+    }
 }
