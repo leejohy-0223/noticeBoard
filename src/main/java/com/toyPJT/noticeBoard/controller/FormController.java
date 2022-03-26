@@ -20,4 +20,10 @@ public class FormController {
         log.debug("GET /loginForm");
         return "user/loginForm";
     }
+
+    @GetMapping("/logoutCheck")
+    public String logoutCheckForm() {
+        log.debug("GET /logoutCheck");
+        return "user/logoutCheck";
+    }
 }

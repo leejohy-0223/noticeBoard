@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <div th:replace="/layout/header.html :: fragment-header"></div>
+</head>
+
+<body>
+<div th:replace="/layout/nav.html :: fragment-nav"></div>
+
+<div class="container">
+    <p>로그아웃이 필요한 서비스입니다. 로그아웃 하시겠습니까?</p>
+    <li class="nav-item"><a href="/logout">로그아웃</a></li>
+    <li class="nav-item"><a href="/">홈으로 가기</a></li>
+</div>
+
+<footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+
+</body>
+</html>

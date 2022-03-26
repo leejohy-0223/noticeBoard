@@ -23,6 +23,9 @@ class UserApiControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private UserService userService;
 
@@ -37,15 +40,7 @@ class UserApiControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/user")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(asJsonString(userSaveRequest)))
+                    .content(objectMapper.writeValueAsString(userSaveRequest)))
             .andExpect(status().isCreated());
-    }
-
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }
