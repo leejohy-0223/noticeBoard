@@ -26,4 +26,10 @@ public class FormController {
         log.debug("GET /logoutCheck");
         return "user/logoutCheck";
     }
+
+    @GetMapping("/saveForm")
+    public String saveForm() {
+        log.debug("GET /saveForm");
+        return "board/saveForm";
+    }
 }

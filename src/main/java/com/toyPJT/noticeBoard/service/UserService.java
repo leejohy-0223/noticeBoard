@@ -29,13 +29,16 @@ public class UserService {
     }
 
     public String login(LoginRequest loginRequest) {
-        User user = userRepository.findByUsername(loginRequest.getUsername())
-            .orElseThrow(() -> new GlobalException(ID_DOES_NOT_EXIST));
-
+        User user = findUser(loginRequest.getUsername());
         if (!user.isYourPassword(loginRequest.getPassword())) {
             throw new GlobalException(PASSWORDS_DO_NOT_MATCH);
         }
         log.debug("user info = {}, {}", user.getUsername(), user.getPassword());
         return user.getUsername();
+    }
+
+    public User findUser(String userName) {
+        return userRepository.findByUsername(userName)
+            .orElseThrow(() -> new GlobalException(ID_DOES_NOT_EXIST));
     }
 }
