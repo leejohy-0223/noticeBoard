@@ -1,5 +1,8 @@
 package com.toyPJT.noticeBoard.domain.board;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
+import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.user.User;
 
 import lombok.AllArgsConstructor;
@@ -36,11 +41,15 @@ public class Board {
     @Lob
     private String content;
 
-    @ColumnDefault("0")
     private int count;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private User user;
 
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
+    private List<Reply> replies;
+
+    @CreationTimestamp
+    private Timestamp createDate;
 }
