@@ -1,5 +1,7 @@
 package com.toyPJT.noticeBoard.controller.api;
 
+import static com.toyPJT.noticeBoard.controller.SharedInformation.*;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -30,7 +32,7 @@ public class AuthController {
     public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
         log.debug("POST /login");
         String savedId = userService.login(loginRequest);
-        session.setAttribute("loginMember", savedId);
+        session.setAttribute(SESSION_NAME, savedId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

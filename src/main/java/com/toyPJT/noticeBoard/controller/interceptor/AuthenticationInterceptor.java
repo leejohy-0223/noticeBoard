@@ -1,5 +1,7 @@
 package com.toyPJT.noticeBoard.controller.interceptor;
 
+import static com.toyPJT.noticeBoard.controller.SharedInformation.*;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,9 +17,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("loginMember") == null) {
+        if (session == null || session.getAttribute(SESSION_NAME) == null) {
             log.debug("미인증 사용자 요청입니다.");
-            response.sendRedirect("/login");
+            response.sendRedirect("/loginForm");
             return false;
         }
         return true;
