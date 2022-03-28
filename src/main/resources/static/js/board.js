@@ -79,14 +79,17 @@ let index = {
             contentType: "application/json; charset=utf-8",
         }).done(function () {
             swal({
-                title: "수정이 완료되었습니다.",
+                title: "게시글 수정이 완료되었습니다.",
                 text: "홈으로 이동합니다.",
                 icon: "success"
             }).then(function () {
                 location.href = "/";
             });
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+        }).fail(function (data, textStatus, xhr) {
+            swal({
+                title: data.responseText,
+                icon: "error"
+            });
         });
     },
 

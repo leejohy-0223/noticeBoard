@@ -39,6 +39,13 @@ public class UserService {
 
     public User findUser(String userName) {
         return userRepository.findByUsername(userName)
-            .orElseThrow(() -> new GlobalException(ID_DOES_NOT_EXIST));
+            .orElseThrow(() -> new GlobalException(USER_NAME_DOES_NOT_EXIST));
+    }
+
+    @Transactional
+    public void update(Integer id, UserSaveRequest userSaveRequest) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new GlobalException(USER_ID_DOES_NOT_EXIST));
+        user.changeValue(userSaveRequest.toEntity());
     }
 }

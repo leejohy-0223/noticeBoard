@@ -26,7 +26,7 @@ let index = {
             contentType: "application/json; charset=utf-8"
         }).done(function () {
             swal({
-                title: "회원가입 되었습니다!",
+                title: "회원가입 되었습니다.",
                 text: "홈으로 이동합니다.",
                 icon: "success"
             }).then(function () {
@@ -53,7 +53,7 @@ let index = {
             contentType: "application/json; charset=utf-8"
         }).done(function () {
             swal({
-                title: "로그인 되었습니다!",
+                title: "로그인 되었습니다.",
                 text: "홈으로 이동합니다.",
                 icon: "success"
             }).then(function () {
@@ -68,22 +68,31 @@ let index = {
     },
 
     update: function () {
+        let id = $("#id").val();
+
         let data = {
-            id: $("#id").val(),
             username: $("#username").val(),
             password: $("#password").val(),
             email: $("#email").val()
         }
         $.ajax({
             type: "PUT",
-            url: "/user",
+            url: "/user/" + id,
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
         }).done(function () {
-            alert("회원수정이 완료되었습니다.");
-            location.href = "/";
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+            swal({
+                title: "회원 수정이 완료되었습니다.",
+                text: "홈으로 이동합니다.",
+                icon: "success"
+            }).then(function () {
+                location.href = "/";
+            });
+        }).fail(function (data, textStatus, xhr) {
+            swal({
+                title: data.responseText,
+                icon: "error"
+            });
         });
     }
 }

@@ -3,7 +3,9 @@ package com.toyPJT.noticeBoard.controller.api;
 import static org.springframework.http.HttpStatus.*;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +27,13 @@ public class UserApiController {
         log.debug("POST /user");
         userService.register(userSaveRequest);
         return new ResponseEntity<>(CREATED);
+    }
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<Void> update(@PathVariable("id") Integer id, @RequestBody UserSaveRequest userSaveRequest) {
+        log.debug("PUT /user");
+        userService.update(id, userSaveRequest);
+        return new ResponseEntity<>(OK);
     }
 
 }

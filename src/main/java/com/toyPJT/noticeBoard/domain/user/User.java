@@ -41,4 +41,9 @@ public class User {
     public boolean isYourPassword(String password) {
         return this.password.equals(password);
     }
+
+    public void changeValue(User updateUser) {
+        this.password = updateUser.password;
+        this.email = updateUser.email;
+    }
 }
