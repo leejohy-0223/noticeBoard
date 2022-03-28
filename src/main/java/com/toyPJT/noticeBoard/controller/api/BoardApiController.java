@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.toyPJT.noticeBoard.controller.SharedInformation;
 import com.toyPJT.noticeBoard.domain.board.Board;
 import com.toyPJT.noticeBoard.domain.user.User;
 import com.toyPJT.noticeBoard.service.BoardService;
