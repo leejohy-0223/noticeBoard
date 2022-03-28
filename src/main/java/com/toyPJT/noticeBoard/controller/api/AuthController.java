@@ -31,8 +31,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
         log.debug("POST /login");
-        String savedId = userService.login(loginRequest);
-        session.setAttribute(SESSION_NAME, savedId);
+        String userName = userService.login(loginRequest);
+        session.setAttribute(SESSION_NAME, userName);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

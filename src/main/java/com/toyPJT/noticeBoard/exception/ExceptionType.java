@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 
 public enum ExceptionType {
 
-    ID_DOES_NOT_EXIST(HttpStatus.NOT_FOUND, "등록되지 않은 유저 아이디입니다."),
+    USER_NAME_DOES_NOT_EXIST(HttpStatus.NOT_FOUND, "등록되지 않은 유저 이름입니다."),
+    USER_ID_DOES_NOT_EXIST(HttpStatus.NOT_FOUND, "등록되지 않은 유저 아이디입니다."),
     BOARD_DOES_NOT_EXIST(HttpStatus.NOT_FOUND, "등록되지 않은 게시글 아이디입니다."),
     DUPLICATE_ID(HttpStatus.CONFLICT, "이미 등록된 유저 아이디입니다."),
     PASSWORDS_DO_NOT_MATCH(HttpStatus.CONFLICT, "유저 아이디 혹은 비밀번호가 일치하지 않습니다.");
