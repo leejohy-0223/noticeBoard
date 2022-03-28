@@ -11,12 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.toyPJT.noticeBoard.domain.board.Board;
 import com.toyPJT.noticeBoard.domain.user.User;
+import com.toyPJT.noticeBoard.exception.ExceptionType;
+import com.toyPJT.noticeBoard.exception.GlobalException;
 import com.toyPJT.noticeBoard.service.BoardService;
+
 
 @WebMvcTest(controllers = BoardController.class)
 class BoardControllerTest {
@@ -50,7 +54,7 @@ class BoardControllerTest {
     @Test
     void get_index() throws Exception {
         // given
-        given(boardService.getBoards(any()))
+        given(boardService.getBoards(any(Pageable.class)))
             .willReturn(Page.empty());
 
         // when & then
@@ -74,4 +78,29 @@ class BoardControllerTest {
             .andExpect(view().name("board/detail"));
     }
 
+    @DisplayName("게시글의 id가 유효할 경우, 업데이트 폼을 반환한다.")
+    @Test
+    void get_update_form_success() throws Exception {
+        // given
+        given(boardService.getBoard(1))
+            .willReturn(board);
+
+        mockMvc.perform(get("/board/1/updateForm")
+                .session(httpSession))
+            .andExpect(status().isOk())
+            .andExpect(model().attributeExists("board"))
+            .andExpect(view().name("board/updateForm"));
+    }
+
+    @DisplayName("게시글의 id가 유효하지 않을 경우, 에러페이지로 리다이렉트된다.")
+    @Test
+    void get_update_form_fail() throws Exception {
+        // given
+        given(boardService.getBoard(1))
+            .willThrow(new GlobalException(ExceptionType.BOARD_DOES_NOT_EXIST));
+
+        mockMvc.perform(get("/board/1/updateForm")
+                .session(httpSession))
+            .andExpect(status().is4xxClientError());
+    }
 }
