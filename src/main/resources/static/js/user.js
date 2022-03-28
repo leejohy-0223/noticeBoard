@@ -1,3 +1,5 @@
+
+
 let index = {
     init: function () {
         $("#btn-save").on("click", () => {
@@ -23,10 +25,18 @@ let index = {
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8"
         }).done(function () {
-            alert("회원가입이 완료되었습니다.");
-            location.href = "/";
+            swal({
+                title: "회원가입 되었습니다!",
+                text: "홈으로 이동합니다.",
+                icon: "success"
+            }).then(function () {
+                location.href = "/";
+            });
         }).fail(function (data, textStatus, xhr) {
-            alert(data.responseText);
+            swal({
+                title: data.responseText,
+                icon: "error"
+            });
         });
 
     },
@@ -42,10 +52,18 @@ let index = {
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8"
         }).done(function () {
-            alert("로그인이 완료되었습니다.");
-            location.href = "/";
+            swal({
+                title: "로그인 되었습니다!",
+                text: "홈으로 이동합니다.",
+                icon: "success"
+            }).then(function () {
+                location.href = "/";
+            });
         }).fail(function (data, textStatus, xhr) {
-            alert(data.responseText);
+            swal({
+                title: data.responseText,
+                icon: "error"
+            });
         });
     },
 

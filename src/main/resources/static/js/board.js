@@ -22,32 +22,44 @@ let index = {
         $.ajax({
             type: "POST",
             url: "/board",
-            data: JSON.stringify(data), // http body데이터
-            contentType: "application/json; charset=utf-8", // body데이터가 어떤 타입인지 (MIME)
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8"
         }).done(function () {
-            alert("글쓰기가 완료되었습니다.");
-            location.href = "/";
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+            swal({
+                title: "글쓰기가 완료되었습니다.",
+                text: "홈으로 이동합니다.",
+                icon: "success"
+            }).then(function () {
+                location.href = "/";
+            });
+        }).fail(function (data, textStatus, xhr) {
+            swal({
+                title: data.responseText,
+                icon: "error"
+            });
         });
-
     },
 
     deleteById: function () {
         let id = $("#id").text();
-        console.log(id);
 
         $.ajax({
             type: "DELETE",
-            url: "/api/board/" + id,
-            dataType: "json",
-        }).done(function (res) {
-            alert("삭제가 완료되었습니다.");
-            location.href = "/";
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+            url: "/board/" + id,
+            contentType: "application/json; charset=utf-8"
+        }).done(function () {
+            swal({
+                title: "삭제가 완료되었습니다.",
+                icon: "success"
+            }).then(function () {
+                location.href = "/";
+            });
+        }).fail(function (data, textStatus, xhr) {
+            swal({
+                title: data.responseText,
+                icon: "error"
+            });
         });
-
     },
 
 
