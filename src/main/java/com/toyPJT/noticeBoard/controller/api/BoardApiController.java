@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +34,12 @@ public class BoardApiController {
         User user = userService.findUser(userName);
         boardService.save(board, user);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/board/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+        boardService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

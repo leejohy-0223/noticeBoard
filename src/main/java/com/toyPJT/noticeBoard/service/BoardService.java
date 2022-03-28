@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.toyPJT.noticeBoard.domain.board.Board;
 import com.toyPJT.noticeBoard.domain.board.BoardRepository;
 import com.toyPJT.noticeBoard.domain.user.User;
+import com.toyPJT.noticeBoard.exception.ExceptionType;
+import com.toyPJT.noticeBoard.exception.GlobalException;
 
 import lombok.AllArgsConstructor;
 
@@ -27,5 +29,15 @@ public class BoardService {
 
     public Page<Board> getBoards(Pageable pageable) {
         return boardRepository.findAll(pageable);
+    }
+
+    public Board getBoard(Integer id) {
+        return boardRepository.findById(id)
+            .orElseThrow(() -> new GlobalException(ExceptionType.BOARD_DOES_NOT_EXIST));
+    }
+
+    @Transactional
+    public void delete(Integer id) {
+        boardRepository.deleteById(id);
     }
 }
