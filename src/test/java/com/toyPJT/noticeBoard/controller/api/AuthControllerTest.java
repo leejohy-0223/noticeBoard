@@ -62,7 +62,7 @@ class AuthControllerTest {
     void login_fail() throws Exception {
         // given
         given(userService.login(loginRequest))
-            .willThrow(new GlobalException(ExceptionType.ID_DOES_NOT_EXIST));
+            .willThrow(new GlobalException(ExceptionType.USER_NAME_DOES_NOT_EXIST));
 
         // when
         ResultActions perform = mockMvc.perform(post("/login")
