@@ -35,11 +35,11 @@ public class Reply {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "boardId")
+    @JoinColumn(name = "BOARD_ID")
     private Board board;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     @CreationTimestamp

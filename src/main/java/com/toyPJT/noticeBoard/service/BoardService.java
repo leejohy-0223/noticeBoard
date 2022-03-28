@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.toyPJT.noticeBoard.domain.board.Board;
 import com.toyPJT.noticeBoard.domain.board.BoardRepository;
+import com.toyPJT.noticeBoard.domain.reply.ReplyRepository;
 import com.toyPJT.noticeBoard.domain.user.User;
 import com.toyPJT.noticeBoard.exception.ExceptionType;
 import com.toyPJT.noticeBoard.exception.GlobalException;
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final ReplyRepository replyRepository;
 
     @Transactional
     public void save(Board board, User user) {
