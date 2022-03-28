@@ -50,6 +50,7 @@ let index = {
         }).done(function () {
             swal({
                 title: "삭제가 완료되었습니다.",
+                text: "홈으로 이동합니다.",
                 icon: "success"
             }).then(function () {
                 location.href = "/";
@@ -62,7 +63,6 @@ let index = {
         });
     },
 
-
     update: function () {
         let id = $("#id").val();
 
@@ -74,17 +74,20 @@ let index = {
 
         $.ajax({
             type: "PUT",
-            url: "/api/board/" + id,
+            url: "/board/" + id,
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
-            dataType: "json"
-        }).done(function (res) {
-            alert("글 수정이 완료되었습니다.");
-            location.href = "/";
+        }).done(function () {
+            swal({
+                title: "수정이 완료되었습니다.",
+                text: "홈으로 이동합니다.",
+                icon: "success"
+            }).then(function () {
+                location.href = "/";
+            });
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
-
     },
 
 
@@ -107,13 +110,13 @@ let index = {
         }).done(function (res) {
             alert("댓글 작성이 완료되었습니다.");
             location.href = `/board/${boardId}`;
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+        }).fail(function (data, textStatus, xhr) {
+            swal({
+                title: data.responseText,
+                icon: "error"
+            });
         });
-
     },
-
-
 
     replyDelete: function (boardId, replyId) {
         $.ajax({

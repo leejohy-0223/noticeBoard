@@ -10,14 +10,14 @@
 <div class="container">
 
     <button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
-    <button id="btn-update" class="btn btn-primary">수정</button>
+    <a th:href="@{/board/{id}/updateForm(id=${board.id})}" class="btn btn-primary">수정</a>
     <button id="btn-delete" class="btn btn-danger">삭제</button>
 
     <br><br>
 
     <div>
-        글번호 : <span th:id="id"><i th:text="${board.id}"></i></span>
-        작성자 : <span><i th:text="${board.getUser().getUsername()}"></i></span>
+        작성자 : <span><i th:text="${board.getUser().getUsername()}"></i></span><br>
+        글번호 : <span th:id="id"><i th:text="${board.id}"></i></span><br>
     </div>
     <br>
 

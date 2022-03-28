@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.toyPJT.noticeBoard.service.BoardService;
 
@@ -33,8 +34,14 @@ public class BoardController {
         return "board/detail";
     }
 
+    @GetMapping("/board/{id}/updateForm")
+    public String updateBoard(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("board", boardService.getBoard(id));
+        return "board/updateForm";
+    }
+
     // TODO
-    // 2. 삭제하기, 수정하기
+    // 2. 게시글 수정하기
     // 3. 회원정보 수정하기
     // 4. 댓글 랜더링
     // 5. 카테고리 기능, 조회수 기능 등 추가.

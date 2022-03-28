@@ -40,4 +40,10 @@ public class BoardService {
     public void delete(Integer id) {
         boardRepository.deleteById(id);
     }
+
+    @Transactional
+    public void update(Integer id, Board updateBoard) {
+        Board board = getBoard(id);
+        board.updateValue(updateBoard);
+    }
 }

@@ -52,4 +52,9 @@ public class Board {
 
     @CreationTimestamp
     private Timestamp createDate;
+
+    public void updateValue(Board updateBoard) {
+        this.title = updateBoard.title;
+        this.content = updateBoard.content;
+    }
 }
