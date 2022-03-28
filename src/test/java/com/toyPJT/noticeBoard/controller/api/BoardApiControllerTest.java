@@ -48,7 +48,7 @@ class BoardApiControllerTest {
             .build();
     }
 
-    @DisplayName("세션이 없으면 로그인 페이지로 Redirect된다.")
+    @DisplayName("게시글 저장 요청 시 세션이 없으면 로그인 페이지로 Redirect된다.")
     @Test
     void board_request_fail() throws Exception {
         mockMvc.perform(post("/board"))
@@ -56,7 +56,7 @@ class BoardApiControllerTest {
             .andExpect(status().is3xxRedirection());
     }
 
-    @DisplayName("저장 중 예외가 발생하지 않으면 CREATE가 정상적으로 동작한다.")
+    @DisplayName("게시글 저장 중 예외가 발생하지 않으면 정상적으로 저장된다.")
     @Test
     void create_success() throws Exception {
         mockMvc.perform(post("/board")
@@ -64,5 +64,21 @@ class BoardApiControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(board)))
             .andExpect(status().isCreated());
+    }
+
+    @DisplayName("게시글 삭제 요청 시 세션이 없으면 로그인 페이지로 Redirect된다.")
+    @Test
+    void delete_request_fail() throws Exception {
+        mockMvc.perform(delete("/delete/1"))
+            .andExpect(header().string("Location", "/loginForm"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @DisplayName("삭제 예외가 발생하지 않으면 정상적으로 삭제된다.")
+    @Test
+    void delete_success() throws Exception {
+        mockMvc.perform(delete("/board/1")
+                .session(httpSession))
+            .andExpect(status().isOk());
     }
 }

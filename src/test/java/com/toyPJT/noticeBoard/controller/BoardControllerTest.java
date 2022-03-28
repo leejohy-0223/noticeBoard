@@ -15,6 +15,7 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.toyPJT.noticeBoard.domain.board.Board;
+import com.toyPJT.noticeBoard.domain.user.User;
 import com.toyPJT.noticeBoard.service.BoardService;
 
 @WebMvcTest(controllers = BoardController.class)
@@ -28,15 +29,20 @@ class BoardControllerTest {
 
     private MockHttpSession httpSession;
     private Board board;
+    private User user;
 
     @BeforeEach
     void setUp() {
         httpSession = new MockHttpSession();
         httpSession.setAttribute("loginMember", "userId");
+        user = User.builder()
+            .username("user1")
+            .build();
         board = Board.builder()
             .id(1)
             .content("content1")
             .title("title1")
+            .user(user)
             .build();
     }
 
