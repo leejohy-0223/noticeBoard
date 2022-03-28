@@ -6,6 +6,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.toyPJT.noticeBoard.service.BoardService;
 
@@ -26,8 +27,14 @@ public class BoardController {
         return "index";
     }
 
+    @GetMapping("/board/{id}")
+    public String findById(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("board", boardService.getBoard(id));
+        return "board/detail";
+    }
+
     // TODO
-    // 2. 글 상세보기, 삭제하기, 수정하기
+    // 2. 삭제하기, 수정하기
     // 3. 회원정보 수정하기
     // 4. 댓글 랜더링
     // 5. 카테고리 기능, 조회수 기능 등 추가.
