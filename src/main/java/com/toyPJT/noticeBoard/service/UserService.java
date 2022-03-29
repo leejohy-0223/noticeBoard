@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
-@Slf4j
 @Transactional(readOnly = true)
 @Service
 public class UserService {
@@ -28,24 +27,23 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
+    public void update(Integer id, UserSaveRequest userSaveRequest) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new GlobalException(USER_ID_DOES_NOT_EXIST));
+        user.changeValue(userSaveRequest.toEntity());
+    }
+
     public String login(LoginRequest loginRequest) {
         User user = findUser(loginRequest.getUsername());
         if (!user.isYourPassword(loginRequest.getPassword())) {
             throw new GlobalException(PASSWORDS_DO_NOT_MATCH);
         }
-        log.debug("user info = {}, {}", user.getUsername(), user.getPassword());
         return user.getUsername();
     }
 
     public User findUser(String userName) {
         return userRepository.findByUsername(userName)
             .orElseThrow(() -> new GlobalException(USER_NAME_DOES_NOT_EXIST));
-    }
-
-    @Transactional
-    public void update(Integer id, UserSaveRequest userSaveRequest) {
-        User user = userRepository.findById(id)
-            .orElseThrow(() -> new GlobalException(USER_ID_DOES_NOT_EXIST));
-        user.changeValue(userSaveRequest.toEntity());
     }
 }

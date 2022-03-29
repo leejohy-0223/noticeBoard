@@ -34,6 +34,7 @@ public class BoardApiController {
 
     @PostMapping("/board")
     public ResponseEntity<Void> save(@RequestBody Board board, HttpSession httpSession) {
+        log.debug("POST /board");
         User user = getUser(httpSession);
         boardService.save(board, user);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -41,6 +42,7 @@ public class BoardApiController {
 
     @PutMapping("/board/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") Integer id, @RequestBody Board board) {
+        log.debug("PUT /board/{}", id);
         boardService.update(id, board);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -61,12 +63,14 @@ public class BoardApiController {
     @PostMapping("/board/{boardId}/reply")
     public ResponseEntity<Void> saveReply(@PathVariable("boardId") Integer id, @RequestBody Reply reply,
         HttpSession httpSession) {
+        log.debug("POST /board/{}/reply", id);
         boardService.saveReply(reply, id, getUser(httpSession));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/board/reply/{replyId}")
     public ResponseEntity<Void> deleteReply(@PathVariable("replyId") Integer replyId, HttpSession session) {
+        log.debug("DELETE /board/reply/{}", replyId);
 
         String loginMemberName = (String)session.getAttribute(SESSION_NAME);
         if (!boardService.checkReplyWriterMatches(replyId, loginMemberName)) {

@@ -21,10 +21,9 @@ public class UserController {
 
     @GetMapping("/user/updateForm")
     public String userUpdateForm(Model model, HttpSession session) {
-        log.debug("GET /updateForm");
+        log.debug("GET /user/updateForm");
         String userName = (String)session.getAttribute(SESSION_NAME);
         model.addAttribute("user", userService.findUser(userName));
         return "user/updateForm";
     }
-
 }

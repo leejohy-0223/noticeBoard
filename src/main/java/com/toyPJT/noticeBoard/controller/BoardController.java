@@ -45,9 +45,11 @@ public class BoardController {
     public String updateBoard(@PathVariable("id") Integer id, Model model, HttpSession session) {
         log.debug("GET /board/{}/updateForm", id);
         String loginMemberName = (String)session.getAttribute(SESSION_NAME);
+
         if (!boardService.checkBoardWriterMatches(id, loginMemberName)) {
             throw new GlobalException(NOT_A_WRITER);
         }
+
         model.addAttribute("board", boardService.getBoard(id));
         return "board/updateForm";
     }
