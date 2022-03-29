@@ -51,6 +51,7 @@ class UserControllerTest {
         mockMvc.perform(get("/user/updateForm")
                 .session(httpSession))
             .andExpect(status().isOk())
+            .andExpect(model().attribute("user", user))
             .andExpect(view().name("user/updateForm"));
     }
 }

@@ -31,7 +31,7 @@ public class UserApiController {
 
     @PutMapping("/user/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") Integer id, @RequestBody UserSaveRequest userSaveRequest) {
-        log.debug("PUT /user");
+        log.debug("PUT /user/{}", id);
         userService.update(id, userSaveRequest);
         return new ResponseEntity<>(OK);
     }
