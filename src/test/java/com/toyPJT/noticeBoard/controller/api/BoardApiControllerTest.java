@@ -1,6 +1,7 @@
 package com.toyPJT.noticeBoard.controller.api;
 
 import static com.toyPJT.noticeBoard.controller.SharedInformation.*;
+import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -80,9 +81,26 @@ class BoardApiControllerTest {
             .andExpect(status().is3xxRedirection());
     }
 
-    @DisplayName("삭제 예외가 발생하지 않으면 정상적으로 삭제된다.")
+    @DisplayName("게시글 삭제 요청 시 작성자와 일치하지 않으면 예외가 발생한다.")
+    @Test
+    void delete_fail_if_writer_unmatched() throws Exception {
+        // given
+        given(boardService.checkBoardWriterMatches(1, "name1"))
+            .willReturn(false);
+
+        mockMvc.perform(delete("/board/1")
+                .session(httpSession))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().string("작성자만 삭제 혹은 수정할 수 있습니다."));
+    }
+
+    @DisplayName("게시글 삭제 요청 시 작성자와 일치하면 정상적으로 삭제된다.")
     @Test
     void delete_success() throws Exception {
+        // given
+        given(boardService.checkBoardWriterMatches(1, "name1"))
+            .willReturn(true);
+
         mockMvc.perform(delete("/board/1")
                 .session(httpSession))
             .andExpect(status().isOk());
@@ -104,5 +122,38 @@ class BoardApiControllerTest {
                 .content(objectMapper.writeValueAsString(reply))
                 .session(httpSession))
             .andExpect(status().isCreated());
+    }
+
+    @DisplayName("reply 삭제 요청 시 세션이 없으면 로그인 페이지로 Redirect된다.")
+    @Test
+    void delete_reply_request_fail() throws Exception {
+        mockMvc.perform(delete("/board/reply/1"))
+            .andExpect(header().string("Location", "/loginForm"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @DisplayName("reply 삭제 요청 시 작성자와 일치하지 않으면 예외가 발생한다.")
+    @Test
+    void delete_reply_fail_if_writer_unmatched() throws Exception {
+        // given
+        given(boardService.checkReplyWriterMatches(1, "name1"))
+            .willReturn(false);
+
+        mockMvc.perform(delete("/board/reply/1")
+                .session(httpSession))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().string("작성자만 삭제 혹은 수정할 수 있습니다."));
+    }
+
+    @DisplayName("reply 삭제 요청 시 작성자와 일치하면 정상적으로 삭제된다.")
+    @Test
+    void delete_reply_success_if_writer_matched() throws Exception {
+        // given
+        given(boardService.checkReplyWriterMatches(1, "name1"))
+            .willReturn(true);
+
+        mockMvc.perform(delete("/board/reply/1")
+                .session(httpSession))
+            .andExpect(status().isOk());
     }
 }

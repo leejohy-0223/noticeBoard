@@ -82,6 +82,8 @@ class BoardControllerTest {
     @Test
     void get_update_form_success() throws Exception {
         // given
+        given(boardService.checkBoardWriterMatches(1, "userId"))
+            .willReturn(true);
         given(boardService.getBoard(1))
             .willReturn(board);
 
