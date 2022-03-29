@@ -37,15 +37,15 @@ public class BoardApiController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/board/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
-        boardService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @PutMapping("/board/{id}")
     public ResponseEntity<Void> update(@PathVariable("id") Integer id, @RequestBody Board board) {
         boardService.update(id, board);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/board/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+        boardService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

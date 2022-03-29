@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyPJT.noticeBoard.domain.board.Board;
+import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.service.BoardService;
 import com.toyPJT.noticeBoard.service.UserService;
 
@@ -36,6 +37,7 @@ class BoardApiControllerTest {
 
     private MockHttpSession httpSession;
     private Board board;
+    private Reply reply;
 
     @BeforeEach
     void setUp() {
@@ -45,6 +47,10 @@ class BoardApiControllerTest {
         board = Board.builder()
             .title("title1")
             .content("content1")
+            .build();
+
+        reply = Reply.builder()
+            .content("reply Content1")
             .build();
     }
 
@@ -69,7 +75,7 @@ class BoardApiControllerTest {
     @DisplayName("게시글 삭제 요청 시 세션이 없으면 로그인 페이지로 Redirect된다.")
     @Test
     void delete_request_fail() throws Exception {
-        mockMvc.perform(delete("/delete/1"))
+        mockMvc.perform(delete("/board/1"))
             .andExpect(header().string("Location", "/loginForm"))
             .andExpect(status().is3xxRedirection());
     }
@@ -80,5 +86,23 @@ class BoardApiControllerTest {
         mockMvc.perform(delete("/board/1")
                 .session(httpSession))
             .andExpect(status().isOk());
+    }
+
+    @DisplayName("reply 추가 시 세션이 없으면 로그인 페이지로 Redirect 된다.")
+    @Test
+    void reply_save_fail() throws Exception {
+        mockMvc.perform(post("/board/1/reply"))
+            .andExpect(header().string("Location", "/loginForm"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @DisplayName("reply 추가 시 예외가 발생하지 않으면 정상적으로 등록된다.")
+    @Test
+    void reply_save_success() throws Exception {
+        mockMvc.perform(post("/board/1/reply")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(reply))
+                .session(httpSession))
+            .andExpect(status().isCreated());
     }
 }
