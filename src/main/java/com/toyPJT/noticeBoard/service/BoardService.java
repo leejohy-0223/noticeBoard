@@ -35,9 +35,12 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
+    @Transactional
     public Board getBoard(Integer id) {
-        return boardRepository.findById(id)
+        Board board = boardRepository.findById(id)
             .orElseThrow(() -> new GlobalException(BOARD_DOES_NOT_EXIST));
+        board.increaseCount();
+        return board;
     }
 
     @Transactional

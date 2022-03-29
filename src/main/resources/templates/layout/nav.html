@@ -14,23 +14,10 @@
             <!--   로그인 유저 페이지 -->
             <div th:if="${session.loginMember != null}">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a th:text="|안녕하세요. ${session.loginMember}!|" class="nav-link">회원이름</a></li>
+                    <li class="nav-item"><strong th:text="|안녕하세요. ${session.loginMember}!|" class="nav-link">회원이름</strong></li>
                     <li class="nav-item"><a class="nav-link" href="/user/updateForm">회원정보</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                            카테고리
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/">전체 글 보기</a>
-                            <a class="dropdown-item" href="/daily">일상</a>
-                            <a class="dropdown-item" href="/date">데이트</a>
-                        </div>
-                    </li>
                     <li class="nav-item"><a class="nav-link" href="/saveForm">글쓰기</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">작성글</a></li>
                     <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
-<!--                    <button id="btn-save" class="btn btn-primary">로그아웃</button>-->
-
                 </ul>
             </div>
 

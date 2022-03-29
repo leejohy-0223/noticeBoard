@@ -63,4 +63,8 @@ public class Board {
         this.title = updateBoard.title;
         this.content = updateBoard.content;
     }
+
+    public void increaseCount() {
+        count++;
+    }
 }
