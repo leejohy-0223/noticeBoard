@@ -1,5 +1,7 @@
 package com.toyPJT.noticeBoard.service;
 
+import static com.toyPJT.noticeBoard.exception.ExceptionType.*;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,6 @@ import com.toyPJT.noticeBoard.domain.board.BoardRepository;
 import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.reply.ReplyRepository;
 import com.toyPJT.noticeBoard.domain.user.User;
-import com.toyPJT.noticeBoard.exception.ExceptionType;
 import com.toyPJT.noticeBoard.exception.GlobalException;
 
 import lombok.AllArgsConstructor;
@@ -36,7 +37,7 @@ public class BoardService {
 
     public Board getBoard(Integer id) {
         return boardRepository.findById(id)
-            .orElseThrow(() -> new GlobalException(ExceptionType.BOARD_DOES_NOT_EXIST));
+            .orElseThrow(() -> new GlobalException(BOARD_DOES_NOT_EXIST));
     }
 
     @Transactional
@@ -59,7 +60,18 @@ public class BoardService {
     }
 
     @Transactional
-    public void deleteReply(Integer boardId, Integer replyId) {
+    public void deleteReply(Integer replyId) {
         replyRepository.deleteById(replyId);
+    }
+
+    public boolean checkBoardWriterMatches(Integer boardId, String loginMemberName) {
+        Board board = getBoard(boardId);
+        return board.getUser().isYourName(loginMemberName);
+    }
+
+    public boolean checkReplyWriterMatches(Integer replyId, String loginMemberName) {
+        Reply reply = replyRepository.findById(replyId)
+            .orElseThrow(() -> new GlobalException(REPLY_DOES_NOT_EXIST));
+        return reply.getUser().isYourName(loginMemberName);
     }
 }

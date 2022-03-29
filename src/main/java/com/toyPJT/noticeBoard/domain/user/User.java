@@ -46,4 +46,8 @@ public class User {
         this.password = updateUser.password;
         this.email = updateUser.email;
     }
+
+    public boolean isYourName(String loginMemberName) {
+        return this.username.equals(loginMemberName);
+    }
 }

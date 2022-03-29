@@ -6,6 +6,9 @@ let index = {
         $("#btn-delete").on("click", () => {
             this.deleteById();
         });
+        $("#btn-updateForm").on("click", () => {
+            this.updateForm();
+        });
         $("#btn-update").on("click", () => {
             this.update();
         });
@@ -63,13 +66,31 @@ let index = {
         });
     },
 
+    updateForm: function () {
+        let id = $("#board_Id").val();
+
+        $.ajax({
+            type: "GET",
+            url: `/board/${id}/updateForm`
+
+        }).done(function () {
+            location.href = `/board/${id}/updateForm`;
+        }).fail(function (data, textStatus, xhr) {
+            swal({
+                title: data.responseText,
+                icon: "error"
+            });
+        });
+
+    },
+
     update: function () {
         let id = $("#id").val();
 
         let data = {
             title: $("#title").val(),
             content: $("#content").val(),
-            category:$("#category").val(),
+            category: $("#category").val(),
         };
 
         $.ajax({
@@ -125,7 +146,7 @@ let index = {
     replyDelete: function (boardId, replyId) {
         $.ajax({
             type: "DELETE",
-            url: `/board/${boardId}/reply/${replyId}`,
+            url: `/board/reply/${replyId}`,
         }).done(function () {
             swal({
                 title: "댓글 삭제가 완료되었습니다.",

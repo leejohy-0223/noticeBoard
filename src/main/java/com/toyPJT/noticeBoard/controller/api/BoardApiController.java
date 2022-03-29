@@ -1,6 +1,7 @@
 package com.toyPJT.noticeBoard.controller.api;
 
 import static com.toyPJT.noticeBoard.controller.SharedInformation.*;
+import static com.toyPJT.noticeBoard.exception.ExceptionType.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.toyPJT.noticeBoard.domain.board.Board;
 import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.user.User;
+import com.toyPJT.noticeBoard.exception.GlobalException;
 import com.toyPJT.noticeBoard.service.BoardService;
 import com.toyPJT.noticeBoard.service.UserService;
 
@@ -44,20 +46,34 @@ public class BoardApiController {
     }
 
     @DeleteMapping("/board/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Integer id, HttpSession session) {
+        log.debug("DELETE /board/{}", id);
+
+        String loginMemberName = (String)session.getAttribute(SESSION_NAME);
+        if (!boardService.checkBoardWriterMatches(id, loginMemberName)) {
+            throw new GlobalException(NOT_A_WRITER);
+        }
+
         boardService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/board/{boardId}/reply")
-    public ResponseEntity<Void> saveReply(@PathVariable("boardId") Integer id, @RequestBody Reply reply, HttpSession httpSession) {
+    public ResponseEntity<Void> saveReply(@PathVariable("boardId") Integer id, @RequestBody Reply reply,
+        HttpSession httpSession) {
         boardService.saveReply(reply, id, getUser(httpSession));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/board/{boardId}/reply/{replyId}")
-    public ResponseEntity<Void> deleteReply(@PathVariable("boardId") Integer boardId, @PathVariable("replyId") Integer replyId) {
-        boardService.deleteReply(boardId, replyId);
+    @DeleteMapping("/board/reply/{replyId}")
+    public ResponseEntity<Void> deleteReply(@PathVariable("replyId") Integer replyId, HttpSession session) {
+
+        String loginMemberName = (String)session.getAttribute(SESSION_NAME);
+        if (!boardService.checkReplyWriterMatches(replyId, loginMemberName)) {
+            throw new GlobalException(NOT_A_WRITER);
+        }
+
+        boardService.deleteReply(replyId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
