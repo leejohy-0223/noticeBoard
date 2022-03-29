@@ -51,10 +51,15 @@ public class BoardService {
     }
 
     @Transactional
-    public void replySave(Reply reply, Integer boardId, User user) {
+    public void saveReply(Reply reply, Integer boardId, User user) {
         Board board = getBoard(boardId);
         reply.setBoard(board);
         reply.setUser(user);
         replyRepository.save(reply);
+    }
+
+    @Transactional
+    public void deleteReply(Integer boardId, Integer replyId) {
+        replyRepository.deleteById(replyId);
     }
 }

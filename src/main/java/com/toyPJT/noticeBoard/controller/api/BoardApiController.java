@@ -50,9 +50,15 @@ public class BoardApiController {
     }
 
     @PostMapping("/board/{boardId}/reply")
-    public ResponseEntity<Void> replySave(@PathVariable("boardId") Integer id, @RequestBody Reply reply, HttpSession httpSession) {
-        boardService.replySave(reply, id, getUser(httpSession));
+    public ResponseEntity<Void> saveReply(@PathVariable("boardId") Integer id, @RequestBody Reply reply, HttpSession httpSession) {
+        boardService.saveReply(reply, id, getUser(httpSession));
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/board/{boardId}/reply/{replyId}")
+    public ResponseEntity<Void> deleteReply(@PathVariable("boardId") Integer boardId, @PathVariable("replyId") Integer replyId) {
+        boardService.deleteReply(boardId, replyId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private User getUser(HttpSession httpSession) {

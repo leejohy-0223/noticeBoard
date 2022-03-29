@@ -124,15 +124,21 @@ let index = {
 
     replyDelete: function (boardId, replyId) {
         $.ajax({
-            // 댓글 삭제
             type: "DELETE",
-            url: `/api/board/${boardId}/reply/${replyId}`,
-            dataType: "json"
-        }).done(function (res) {
-            alert("댓글 삭제 성공");
-            location.href = `/board/${boardId}`;
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
+            url: `/board/${boardId}/reply/${replyId}`,
+        }).done(function () {
+            swal({
+                title: "댓글 삭제가 완료되었습니다.",
+                text: "해당 게시글로 이동합니다.",
+                icon: "success"
+            }).then(function () {
+                location.href = `/board/${boardId}`;
+            });
+        }).fail(function (data, textStatus, xhr) {
+            swal({
+                title: data.responseText,
+                icon: "error"
+            });
         });
 
     },
