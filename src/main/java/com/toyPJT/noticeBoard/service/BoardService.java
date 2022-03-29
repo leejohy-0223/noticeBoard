@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.toyPJT.noticeBoard.domain.board.Board;
 import com.toyPJT.noticeBoard.domain.board.BoardRepository;
+import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.reply.ReplyRepository;
 import com.toyPJT.noticeBoard.domain.user.User;
 import com.toyPJT.noticeBoard.exception.ExceptionType;
@@ -47,5 +48,13 @@ public class BoardService {
     public void update(Integer id, Board updateBoard) {
         Board board = getBoard(id);
         board.updateValue(updateBoard);
+    }
+
+    @Transactional
+    public void replySave(Reply reply, Integer boardId, User user) {
+        Board board = getBoard(boardId);
+        reply.setBoard(board);
+        reply.setUser(user);
+        replyRepository.save(reply);
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.toyPJT.noticeBoard.domain.board.Board;
+import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.user.User;
 import com.toyPJT.noticeBoard.service.BoardService;
 import com.toyPJT.noticeBoard.service.UserService;
@@ -31,8 +32,7 @@ public class BoardApiController {
 
     @PostMapping("/board")
     public ResponseEntity<Void> save(@RequestBody Board board, HttpSession httpSession) {
-        String userName = (String)httpSession.getAttribute(SESSION_NAME);
-        User user = userService.findUser(userName);
+        User user = getUser(httpSession);
         boardService.save(board, user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -47,6 +47,17 @@ public class BoardApiController {
     public ResponseEntity<Void> update(@PathVariable("id") Integer id, @RequestBody Board board) {
         boardService.update(id, board);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/board/{boardId}/reply")
+    public ResponseEntity<Void> replySave(@PathVariable("boardId") Integer id, @RequestBody Reply reply, HttpSession httpSession) {
+        boardService.replySave(reply, id, getUser(httpSession));
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    private User getUser(HttpSession httpSession) {
+        String userName = (String)httpSession.getAttribute(SESSION_NAME);
+        return userService.findUser(userName);
     }
 
 }

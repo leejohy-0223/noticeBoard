@@ -23,25 +23,27 @@ public class BoardController {
     @GetMapping("/")
     public String index(Model model,
         @PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.debug("GET /");
         model.addAttribute("boards", boardService.getBoards(pageable));
         return "index";
     }
 
     @GetMapping("/board/{id}")
     public String findById(@PathVariable("id") Integer id, Model model) {
+        log.debug("GET /board/{}", id);
         model.addAttribute("board", boardService.getBoard(id));
         return "board/detail";
     }
 
     @GetMapping("/board/{id}/updateForm")
     public String updateBoard(@PathVariable("id") Integer id, Model model) {
+        log.debug("GET /board/{}/updateForm", id);
         model.addAttribute("board", boardService.getBoard(id));
         return "board/updateForm";
     }
 
     // TODO
-    // 3. 회원정보 수정하기
-    // 4. 댓글 랜더링
     // 5. 카테고리 기능, 조회수 기능 등 추가.
+    // 자신의 글 & 댓글 & 프로필만 수정할 수 있도록 적용
 
 }
