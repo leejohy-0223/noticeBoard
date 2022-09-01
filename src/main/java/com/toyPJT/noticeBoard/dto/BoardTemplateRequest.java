@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class BoardSaveRequest {
+public class BoardTemplateRequest {
 
     @NotBlank(message = "필드에 공백이 존재합니다.")
     private String title;

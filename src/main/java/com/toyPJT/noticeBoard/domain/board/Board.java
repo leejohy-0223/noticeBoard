@@ -59,9 +59,9 @@ public class Board {
     @CreationTimestamp
     private Timestamp createDate;
 
-    public void updateValue(Board updateBoard) {
-        this.title = updateBoard.title;
-        this.content = updateBoard.content;
+    public void updateValue(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
     public void increaseCount() {

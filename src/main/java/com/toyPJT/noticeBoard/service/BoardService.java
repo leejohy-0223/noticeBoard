@@ -12,7 +12,7 @@ import com.toyPJT.noticeBoard.domain.board.BoardRepository;
 import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.reply.ReplyRepository;
 import com.toyPJT.noticeBoard.domain.user.User;
-import com.toyPJT.noticeBoard.dto.BoardSaveRequest;
+import com.toyPJT.noticeBoard.dto.BoardTemplateRequest;
 import com.toyPJT.noticeBoard.exception.GlobalException;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +25,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
 
-    public void save(BoardSaveRequest boardSaveRequest, User user) {
+    public void save(BoardTemplateRequest boardSaveRequest, User user) {
         Board board = Board.builder()
             .user(user)
             .title(boardSaveRequest.getTitle())
@@ -51,9 +51,9 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
-    public void update(Integer id, Board updateBoard) {
+    public void update(Integer id, BoardTemplateRequest request) {
         Board board = getBoard(id);
-        board.updateValue(updateBoard);
+        board.updateValue(request.getTitle(), request.getContent());
     }
 
     public void saveReply(Reply reply, Integer boardId, User user) {

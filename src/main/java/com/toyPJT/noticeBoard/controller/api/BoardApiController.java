@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.toyPJT.noticeBoard.domain.board.Board;
 import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.user.User;
-import com.toyPJT.noticeBoard.dto.BoardSaveRequest;
+import com.toyPJT.noticeBoard.dto.BoardTemplateRequest;
 import com.toyPJT.noticeBoard.exception.GlobalException;
 import com.toyPJT.noticeBoard.service.BoardService;
 import com.toyPJT.noticeBoard.service.UserService;
@@ -35,7 +34,7 @@ public class BoardApiController {
     private final UserService userService;
 
     @PostMapping("/board")
-    public ResponseEntity<Void> save(@Validated @RequestBody BoardSaveRequest request, HttpSession httpSession) {
+    public ResponseEntity<Void> save(@Validated @RequestBody BoardTemplateRequest request, HttpSession httpSession) {
         log.debug("POST /board");
         User user = getUser(httpSession);
         boardService.save(request, user);
@@ -43,9 +42,9 @@ public class BoardApiController {
     }
 
     @PutMapping("/board/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") Integer id, @Validated @RequestBody Board board) {
+    public ResponseEntity<Void> update(@PathVariable("id") Integer id, @Validated @RequestBody BoardTemplateRequest request) {
         log.debug("PUT /board/{}", id);
-        boardService.update(id, board);
+        boardService.update(id, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
