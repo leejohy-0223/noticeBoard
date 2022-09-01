@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.toyPJT.noticeBoard.domain.board.Board;
 import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.user.User;
+import com.toyPJT.noticeBoard.dto.BoardSaveRequest;
 import com.toyPJT.noticeBoard.exception.GlobalException;
 import com.toyPJT.noticeBoard.service.BoardService;
 import com.toyPJT.noticeBoard.service.UserService;
@@ -33,15 +35,15 @@ public class BoardApiController {
     private final UserService userService;
 
     @PostMapping("/board")
-    public ResponseEntity<Void> save(@RequestBody Board board, HttpSession httpSession) {
+    public ResponseEntity<Void> save(@Validated @RequestBody BoardSaveRequest request, HttpSession httpSession) {
         log.debug("POST /board");
         User user = getUser(httpSession);
-        boardService.save(board, user);
+        boardService.save(request, user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/board/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") Integer id, @RequestBody Board board) {
+    public ResponseEntity<Void> update(@PathVariable("id") Integer id, @Validated @RequestBody Board board) {
         log.debug("PUT /board/{}", id);
         boardService.update(id, board);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -61,7 +63,7 @@ public class BoardApiController {
     }
 
     @PostMapping("/board/{boardId}/reply")
-    public ResponseEntity<Void> saveReply(@PathVariable("boardId") Integer id, @RequestBody Reply reply,
+    public ResponseEntity<Void> saveReply(@PathVariable("boardId") Integer id, @Validated @RequestBody Reply reply,
         HttpSession httpSession) {
         log.debug("POST /board/{}/reply", id);
         boardService.saveReply(reply, id, getUser(httpSession));
