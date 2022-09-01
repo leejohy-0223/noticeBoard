@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.user.User;
 import com.toyPJT.noticeBoard.dto.BoardTemplateRequest;
+import com.toyPJT.noticeBoard.dto.ReplySaveRequest;
 import com.toyPJT.noticeBoard.exception.GlobalException;
 import com.toyPJT.noticeBoard.service.BoardService;
 import com.toyPJT.noticeBoard.service.UserService;
@@ -62,10 +62,10 @@ public class BoardApiController {
     }
 
     @PostMapping("/board/{boardId}/reply")
-    public ResponseEntity<Void> saveReply(@PathVariable("boardId") Integer id, @Validated @RequestBody Reply reply,
+    public ResponseEntity<Void> saveReply(@PathVariable("boardId") Integer id, @Validated @RequestBody ReplySaveRequest request,
         HttpSession httpSession) {
         log.debug("POST /board/{}/reply", id);
-        boardService.saveReply(reply, id, getUser(httpSession));
+        boardService.saveReply(request, id, getUser(httpSession));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -13,6 +13,7 @@ import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.reply.ReplyRepository;
 import com.toyPJT.noticeBoard.domain.user.User;
 import com.toyPJT.noticeBoard.dto.BoardTemplateRequest;
+import com.toyPJT.noticeBoard.dto.ReplySaveRequest;
 import com.toyPJT.noticeBoard.exception.GlobalException;
 
 import lombok.AllArgsConstructor;
@@ -56,10 +57,14 @@ public class BoardService {
         board.updateValue(request.getTitle(), request.getContent());
     }
 
-    public void saveReply(Reply reply, Integer boardId, User user) {
+    public void saveReply(ReplySaveRequest request, Integer boardId, User user) {
         Board board = getBoard(boardId);
-        reply.setBoard(board);
-        reply.setUser(user);
+        Reply reply = Reply.builder()
+            .board(board)
+            .content(request.getContent())
+            .user(user)
+            .build();
+
         replyRepository.save(reply);
     }
 
