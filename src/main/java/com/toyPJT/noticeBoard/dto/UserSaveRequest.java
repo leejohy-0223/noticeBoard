@@ -1,5 +1,8 @@
 package com.toyPJT.noticeBoard.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.toyPJT.noticeBoard.domain.user.User;
 
 import lombok.AllArgsConstructor;
@@ -10,8 +13,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserSaveRequest {
+
+    @NotBlank(message = "필드에 공백이 존재합니다.")
     private String username;
+
+    @NotBlank(message = "필드에 공백이 존재합니다.")
     private String password;
+
+    @NotBlank(message = "필드에 공백이 존재합니다.")
     private String email;
 
     public User toEntity() {
