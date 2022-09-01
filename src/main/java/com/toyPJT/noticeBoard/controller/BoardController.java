@@ -37,7 +37,7 @@ public class BoardController {
     @GetMapping("/board/{id}")
     public String findById(@PathVariable("id") Integer id, Model model) {
         log.debug("GET /board/{}", id);
-        model.addAttribute("board", boardService.getBoard(id));
+        model.addAttribute("board", boardService.getBoardDetails(id));
         return "board/detail";
     }
 
@@ -50,7 +50,7 @@ public class BoardController {
             throw new GlobalException(NOT_A_WRITER);
         }
 
-        model.addAttribute("board", boardService.getBoard(id));
+        model.addAttribute("board", boardService.getBoardDetails(id));
         return "board/updateForm";
     }
 }

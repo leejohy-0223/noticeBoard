@@ -4,6 +4,8 @@ import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.toyPJT.noticeBoard.domain.board.Board;
 import com.toyPJT.noticeBoard.domain.user.User;
+import com.toyPJT.noticeBoard.dto.BoardDetailResponse;
 import com.toyPJT.noticeBoard.exception.ExceptionType;
 import com.toyPJT.noticeBoard.exception.GlobalException;
 import com.toyPJT.noticeBoard.service.BoardService;
@@ -68,8 +71,11 @@ class BoardControllerTest {
     @Test
     void get_board_success() throws Exception {
         // given
-        given(boardService.getBoard(any()))
-            .willReturn(board);
+        BoardDetailResponse response = new BoardDetailResponse(board.getTitle(), board.findUsername(),
+            board.getId(), board.getCount(),
+            board.getContent(), new ArrayList<>());
+        given(boardService.getBoardDetails(any()))
+            .willReturn(response);
 
         mockMvc.perform(get("/board/1")
                 .session(httpSession))
@@ -84,8 +90,12 @@ class BoardControllerTest {
         // given
         given(boardService.checkBoardWriterMatches(1, "userId"))
             .willReturn(true);
-        given(boardService.getBoard(1))
-            .willReturn(board);
+
+        BoardDetailResponse response = new BoardDetailResponse(board.getTitle(), board.findUsername(),
+            board.getId(), board.getCount(),
+            board.getContent(), new ArrayList<>());
+        given(boardService.getBoardDetails(any()))
+            .willReturn(response);
 
         mockMvc.perform(get("/board/1/updateForm")
                 .session(httpSession))
@@ -98,7 +108,7 @@ class BoardControllerTest {
     @Test
     void get_update_form_fail() throws Exception {
         // given
-        given(boardService.getBoard(1))
+        given(boardService.getBoardDetails(1))
             .willThrow(new GlobalException(ExceptionType.BOARD_DOES_NOT_EXIST));
 
         mockMvc.perform(get("/board/1/updateForm")

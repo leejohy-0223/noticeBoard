@@ -46,4 +46,7 @@ public class Reply {
     @CreationTimestamp
     private Timestamp createDate;
 
+    public String findUsername() {
+        return user.getUsername();
+    }
 }

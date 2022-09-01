@@ -51,7 +51,7 @@ public class Board {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties({"board"})
     @OrderBy("id desc")
     private List<Reply> replies = new ArrayList<>();
@@ -66,5 +66,9 @@ public class Board {
 
     public void increaseCount() {
         count++;
+    }
+
+    public String findUsername() {
+        return user.getUsername();
     }
 }

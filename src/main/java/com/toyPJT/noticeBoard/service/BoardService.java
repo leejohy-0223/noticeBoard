@@ -12,6 +12,8 @@ import com.toyPJT.noticeBoard.domain.board.BoardRepository;
 import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.reply.ReplyRepository;
 import com.toyPJT.noticeBoard.domain.user.User;
+import com.toyPJT.noticeBoard.dto.BoardDetailResponse;
+import com.toyPJT.noticeBoard.dto.BoardSummaryResponse;
 import com.toyPJT.noticeBoard.dto.BoardTemplateRequest;
 import com.toyPJT.noticeBoard.dto.ReplySaveRequest;
 import com.toyPJT.noticeBoard.exception.GlobalException;
@@ -37,15 +39,14 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Board> getBoards(Pageable pageable) {
-        return boardRepository.findAll(pageable);
+    public Page<BoardSummaryResponse> getBoards(Pageable pageable) {
+        return boardRepository.findBoardSummary(pageable);
     }
 
-    public Board getBoard(Integer id) {
-        Board board = boardRepository.findById(id)
-            .orElseThrow(() -> new GlobalException(BOARD_DOES_NOT_EXIST));
+    public BoardDetailResponse getBoardDetails(Integer id) {
+        Board board = getBoard(id);
         board.increaseCount();
-        return board;
+        return new BoardDetailResponse(board.getTitle(), board.findUsername(), board.getId(), board.getCount(), board.getContent(), board.getReplies());
     }
 
     public void delete(Integer id) {
@@ -81,5 +82,10 @@ public class BoardService {
         Reply reply = replyRepository.findById(replyId)
             .orElseThrow(() -> new GlobalException(REPLY_DOES_NOT_EXIST));
         return reply.getUser().isYourName(loginMemberName);
+    }
+
+    private Board getBoard(Integer id) {
+        return boardRepository.findById(id)
+            .orElseThrow(() -> new GlobalException(BOARD_DOES_NOT_EXIST));
     }
 }
