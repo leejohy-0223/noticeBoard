@@ -12,10 +12,9 @@ import com.toyPJT.noticeBoard.dto.UserSaveRequest;
 import com.toyPJT.noticeBoard.exception.GlobalException;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 @Service
 public class UserService {
 
@@ -34,6 +33,7 @@ public class UserService {
         user.changeValue(userSaveRequest.toEntity());
     }
 
+    @Transactional(readOnly = true)
     public String login(LoginRequest loginRequest) {
         User user = findUser(loginRequest.getUsername());
         if (!user.isYourPassword(loginRequest.getPassword())) {
@@ -42,6 +42,7 @@ public class UserService {
         return user.getUsername();
     }
 
+    @Transactional(readOnly = true)
     public User findUser(String userName) {
         return userRepository.findByUsername(userName)
             .orElseThrow(() -> new GlobalException(USER_NAME_DOES_NOT_EXIST));
