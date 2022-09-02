@@ -46,7 +46,7 @@ public class BoardService {
     public BoardDetailResponse getBoardDetails(Integer id) {
         Board board = getBoard(id);
         board.increaseCount();
-        return new BoardDetailResponse(board.getTitle(), board.findUsername(), board.getId(), board.getCount(), board.getContent(), board.getReplies());
+        return new BoardDetailResponse(board.getTitle(), board.getUsername(), board.getId(), board.getCount(), board.getContent(), board.getReplies());
     }
 
     public void delete(Integer id) {

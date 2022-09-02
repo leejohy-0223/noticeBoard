@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toyPJT.noticeBoard.domain.board.Board;
 import com.toyPJT.noticeBoard.domain.reply.Reply;
+import com.toyPJT.noticeBoard.dto.BoardTemplateRequest;
 import com.toyPJT.noticeBoard.service.BoardService;
 import com.toyPJT.noticeBoard.service.UserService;
 
@@ -66,10 +67,12 @@ class BoardApiControllerTest {
     @DisplayName("게시글 저장 중 예외가 발생하지 않으면 정상적으로 저장된다.")
     @Test
     void create_success() throws Exception {
+        BoardTemplateRequest request = new BoardTemplateRequest("title", "contents");
+
         mockMvc.perform(post("/board")
                 .session(httpSession)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(board)))
+                .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated());
     }
 

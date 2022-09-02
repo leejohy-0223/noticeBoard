@@ -18,6 +18,6 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
         + " ORDER BY b.id")
     Page<BoardSummaryResponse> findBoardSummary(Pageable pageable);
 
-    @EntityGraph(attributePaths = {"user", "replies"})
+    @EntityGraph(attributePaths = {"user", "replies", "replies.user"})
     Optional<Board> findById(Integer id);
 }

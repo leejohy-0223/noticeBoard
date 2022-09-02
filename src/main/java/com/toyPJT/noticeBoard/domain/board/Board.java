@@ -68,7 +68,7 @@ public class Board {
         count++;
     }
 
-    public String findUsername() {
+    public String getUsername() {
         return user.getUsername();
     }
 }

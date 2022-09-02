@@ -71,7 +71,7 @@ class BoardControllerTest {
     @Test
     void get_board_success() throws Exception {
         // given
-        BoardDetailResponse response = new BoardDetailResponse(board.getTitle(), board.findUsername(),
+        BoardDetailResponse response = new BoardDetailResponse(board.getTitle(), board.getUsername(),
             board.getId(), board.getCount(),
             board.getContent(), new ArrayList<>());
         given(boardService.getBoardDetails(any()))
@@ -91,7 +91,7 @@ class BoardControllerTest {
         given(boardService.checkBoardWriterMatches(1, "userId"))
             .willReturn(true);
 
-        BoardDetailResponse response = new BoardDetailResponse(board.getTitle(), board.findUsername(),
+        BoardDetailResponse response = new BoardDetailResponse(board.getTitle(), board.getUsername(),
             board.getId(), board.getCount(),
             board.getContent(), new ArrayList<>());
         given(boardService.getBoardDetails(any()))
