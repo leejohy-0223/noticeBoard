@@ -37,4 +37,10 @@ public class GlobalExceptionHandler {
         log.warn("DataIntegrityViolationException 발생", exception);
         return DUPLICATE_ID.getResponse();
     }
+
+    @ExceptionHandler(value = RuntimeException.class)
+    private ResponseEntity<String> handleException(RuntimeException exception) {
+        log.warn("RuntimeException 발생", exception);
+        return INTERNAL_SERVER_ERROR.getResponse();
+    }
 }
