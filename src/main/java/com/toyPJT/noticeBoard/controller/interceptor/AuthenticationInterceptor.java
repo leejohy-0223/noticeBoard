@@ -15,6 +15,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String username = (String)request.getAttribute("username");
+        log.info("username is : {}", username);
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute(SESSION_NAME) == null) {
             log.debug("미인증 사용자 요청입니다.");

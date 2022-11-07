@@ -51,7 +51,7 @@ public class Board {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"board"})
     @OrderBy("id desc")
     private List<Reply> replies = new ArrayList<>();

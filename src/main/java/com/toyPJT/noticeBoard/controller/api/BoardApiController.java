@@ -3,18 +3,24 @@ package com.toyPJT.noticeBoard.controller.api;
 import static com.toyPJT.noticeBoard.controller.SharedInformation.*;
 import static com.toyPJT.noticeBoard.exception.ExceptionType.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.toyPJT.noticeBoard.domain.board.Board;
+import com.toyPJT.noticeBoard.domain.reply.Reply;
 import com.toyPJT.noticeBoard.domain.user.User;
 import com.toyPJT.noticeBoard.dto.BoardTemplateRequest;
 import com.toyPJT.noticeBoard.dto.ReplySaveRequest;
@@ -85,6 +91,32 @@ public class BoardApiController {
     private User getUser(HttpSession httpSession) {
         String userName = (String)httpSession.getAttribute(SESSION_NAME);
         return userService.findUser(userName);
+    }
+
+    @GetMapping("/board/test")
+    public ResponseEntity<String> test() {
+        Board test = boardService.getTest();
+        log.info("before call user");
+        User user = test.getUser();
+        log.info("after call user");
+
+        log.info("before call replies");
+        List<Reply> replies = test.getReplies();
+        log.info("after call replies");
+
+        log.info("before call replies method");
+        Reply reply = replies.get(0);
+        log.info("is proxy? = {}", reply.getClass());
+        log.info("after call replies method");
+        log.info("is proxy? = {}", reply.getClass());
+
+        log.info("before call user method");
+        log.info("proxy user class = {}", user.getClass());
+        String name = user.getUsername();
+        log.info("after call user method");
+        log.info("proxy user class = {}", user.getClass());
+
+        return ResponseEntity.ok(name);
     }
 
 }

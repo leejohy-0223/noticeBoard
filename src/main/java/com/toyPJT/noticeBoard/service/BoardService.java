@@ -88,4 +88,8 @@ public class BoardService {
         return boardRepository.findById(id)
             .orElseThrow(() -> new GlobalException(BOARD_DOES_NOT_EXIST));
     }
+
+    public Board getTest() {
+        return getBoard(54);
+    }
 }

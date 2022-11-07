@@ -10,7 +10,6 @@ let index = {
             this.update();
         });
     },
-
     save: function () {
         let data = {
             username: $("#username").val(),
@@ -40,10 +39,14 @@ let index = {
     },
 
     login: function () {
+        let rsa = new RSAKey();
+        rsa.setPublic($('#RSAModulus').val(), $('#RSAExponent').val());
+
         let data = {
-            username: $("#username").val(),
-            password: $("#password").val()
-        }
+            username: rsa.encrypt($("#username").val()),
+            password: rsa.encrypt($("#password").val())
+        };
+
         $.ajax({
             type: "POST",
             url: "/login",
