@@ -20,6 +20,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute(SESSION_NAME) == null) {
             log.debug("미인증 사용자 요청입니다.");
+            log.debug("인터셉터에 걸러진 url은 {} 입니다.", request.getRequestURI());
             response.sendRedirect("/loginForm");
             return false;
         }
